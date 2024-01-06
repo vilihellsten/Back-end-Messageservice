@@ -134,21 +134,24 @@ namespace Harjoitus.Controllers
 
             if (this.User.FindFirst(ClaimTypes.Name).Value == message.Sender)
             {
-
-                if (id != message.Id)
+                if (await _authService.isMyMessage(this.User.FindFirst(ClaimTypes.Name).Value, id))
                 {
-                    return BadRequest();
-                }
 
-                bool result = await _messageService.UpdateMessageAsync(message);
+                    if (id != message.Id)
+                    {
+                        return BadRequest();
+                    }
 
-                if (!result)
-                {
-                    return NotFound(message);
+                    bool result = await _messageService.UpdateMessageAsync(message);
+
+                    if (!result)
+                    {
+                        return NotFound(message);
+                    }
+                    return NoContent();
                 }
-                return NoContent();
+                return BadRequest();
             }
-
             return BadRequest();
 
         }
@@ -167,14 +170,14 @@ namespace Harjoitus.Controllers
             if (this.User.FindFirst(ClaimTypes.Name).Value == message.Sender)
             {
 
-                MessageDTO newMessage = await _messageService.NewMessageAsync(message); // KÄY KAIKKI LÄPI UUDESTAAN, 4 .12 klo 45 min in
+                MessageDTO newMessage = await _messageService.NewMessageAsync(message); 
 
                 if (newMessage == null)
                 {
                     return Problem();
                 }
 
-                //return CreatedAtAction("Message", new { id = message.Id }, message);
+               
                 return CreatedAtAction(nameof(GetMessage), new { id = newMessage.Id }, newMessage);
             }
             return BadRequest();

@@ -52,9 +52,6 @@ namespace Harjoitus.Services
                 updatedMessage.Title = message.Title;
                 updatedMessage.Body = message.Body;
                 return await _repository.UpdateMessageAsync(updatedMessage);
-               // Message newMessage = await DTOToMessage(message);
-                //return await _repository.UpdateMessageAsync(await DTOToMessage(message));
-                //return await _repository.UpdateMessageAsync(newMessage);
             }
             return false;
         }

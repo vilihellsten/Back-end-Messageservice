@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Harjoitus.Models;
 using Harjoitus.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Harjoitus.Middleware;
 
 namespace Harjoitus.Controllers
 {
@@ -17,11 +19,13 @@ namespace Harjoitus.Controllers
     {
         
         private readonly IUserService _userService;
+        private readonly IUserAuthenticationservice _authService;
 
-        
-        public UsersController(IUserService service)
+
+        public UsersController(IUserService service, IUserAuthenticationservice authService)
         {
             _userService = service;
+            _authService = authService;
         }
 
         // GET: api/Users
@@ -98,17 +102,19 @@ namespace Harjoitus.Controllers
 
         // DELETE: api/Users/5 
         /// <summary>
-        /// Delete message
+        /// Delete user
         /// </summary>
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteUser(long id)
         {
-
-            if (await _userService.DeleteUserAsync(id))
+            if (await _authService.isMyAccount(this.User.FindFirst(ClaimTypes.Name).Value, id))
             {
+                await _userService.DeleteUserAsync(id);
+            
                 return NoContent();
             }
+
             return NotFound();
      
         }

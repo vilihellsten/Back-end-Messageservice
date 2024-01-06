@@ -11,6 +11,8 @@ namespace Harjoitus.Middleware
         User CreateUserCredentials(User user);
 
         Task<bool> isMyMessage(string username, long messageId);
+
+        Task<bool> isMyAccount(string username, long messageId);
     }
     public class UserAuthenticationService : IUserAuthenticationservice
     {
@@ -22,13 +24,13 @@ namespace Harjoitus.Middleware
             _repository = repository;
             _messageRepository = messageRepository;
         }
-        
+
         public async Task<User> Authenticate(string username, string password)
         {
             User? user;
 
             user = await _repository.GetUserAsync(username);
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
@@ -40,7 +42,7 @@ namespace Harjoitus.Middleware
                 iterationCount: 10000,
                 numBytesRequested: 258 / 8));
 
-            if(hashedPassword != user.Password)
+            if (hashedPassword != user.Password)
             {
                 return null;
             }
@@ -50,18 +52,18 @@ namespace Harjoitus.Middleware
 
         public User CreateUserCredentials(User user)
         {
-            
-                byte[] salt = new byte[128 / 8];
-                using (var rng = RandomNumberGenerator.Create())
-                {
-                    rng.GetBytes(salt);
-                }
-                string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: user.Password,
-                    salt: salt,
-                    prf: KeyDerivationPrf.HMACSHA256,
-                    iterationCount: 10000,
-                    numBytesRequested: 258 / 8));
+
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: user.Password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 258 / 8));
 
             if (user.Salt != null)
             {
@@ -80,7 +82,7 @@ namespace Harjoitus.Middleware
                 LastName = user.LastName,
                 Salt = salt,
                 Password = hashedPassword,
-                JoinDate = user.JoinDate!=null? user.JoinDate:DateTime.Now,
+                JoinDate = user.JoinDate != null ? user.JoinDate : DateTime.Now,
                 LastLogin = DateTime.Now
             };
             return newUser;
@@ -89,17 +91,32 @@ namespace Harjoitus.Middleware
         public async Task<bool> isMyMessage(string username, long messageId)
         {
             User? user = await _repository.GetUserAsync(username);
-            if(user == null)
+            if (user == null)
             {
                 return false;
             }
 
             Message? Message = await _messageRepository.GetMessageAsync(messageId);
-            if(Message == null)
+            if (Message == null)
             {
                 return false;
             }
             if (Message.Sender == user)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> isMyAccount(string username, long userId)
+        {
+            User? user = await _repository.GetUserAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (user.Id == userId)
             {
                 return true;
             }
