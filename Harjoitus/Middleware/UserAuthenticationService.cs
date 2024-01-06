@@ -50,19 +50,28 @@ namespace Harjoitus.Middleware
 
         public User CreateUserCredentials(User user)
         {
+            
+                byte[] salt = new byte[128 / 8];
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(salt);
+                }
+                string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: user.Password,
+                    salt: salt,
+                    prf: KeyDerivationPrf.HMACSHA256,
+                    iterationCount: 10000,
+                    numBytesRequested: 258 / 8));
 
-
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create()) // tarkistaa duplikaatit tässä??
+            if (user.Salt != null)
             {
-                rng.GetBytes(salt);
+                user.Password = hashedPassword;
+                user.Salt = salt;
+                user.JoinDate = user.JoinDate != null ? user.JoinDate : DateTime.Now;
+                user.LastLogin = DateTime.Now;
+                return user;
             }
-            string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: user.Password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000,
-                numBytesRequested: 258 / 8));
+
 
             User newUser = new User
             {

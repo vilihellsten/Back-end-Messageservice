@@ -76,7 +76,7 @@ namespace Harjoitus.Services
             {
                 return false;
             }
-            updatedUser.FirstName = user.FirstName; // voisi tehdä niin että päivitetään pelkästään yksi kenttä jos haluttaisiin? kyssäri tästä? 4.12 1.20.00
+            updatedUser.FirstName = user.FirstName;
             updatedUser.LastName = user.LastName;
             updatedUser.Password = user.Password;
             updatedUser = _authenticationService.CreateUserCredentials(updatedUser);
@@ -96,6 +96,6 @@ namespace Harjoitus.Services
 
             return dto;
         }
-    } //täällä tarkistetaan ettei duplikaatti usernamea!!!????
+    } 
 
 }

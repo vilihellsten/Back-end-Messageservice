@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Harjoitus.Models;
 using Harjoitus.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Harjoitus.Controllers
 {
@@ -33,7 +34,7 @@ namespace Harjoitus.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(long id) // puhui jotain tähän liittyen, tarkista, 4.12 1.26.40 ish
+        public async Task<ActionResult<UserDTO>> GetUser(long id) 
         {
             UserDTO dto = await _userService.GetUserAsync(id);
 
@@ -48,6 +49,7 @@ namespace Harjoitus.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutUser(long id, User user)
         {
 
@@ -81,6 +83,7 @@ namespace Harjoitus.Controllers
 
         // DELETE: api/Users/5 etsitään messagea jolla on tämä id
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(long id)
         {
 

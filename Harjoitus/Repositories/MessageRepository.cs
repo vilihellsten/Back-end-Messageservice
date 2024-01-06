@@ -38,7 +38,8 @@ namespace Harjoitus.Repositories
 
         public async Task<IEnumerable<Message>> GetMessagesAsync()
         {
-            return await _context.Messages.Where(x => x.Recipient == null).OrderByDescending(x => x.Id).Take(10).ToListAsync(); 
+            return await _context.Messages.Where(x => x.Recipient == null).Include(s => s.Sender).Include(s => s.Recipient).OrderByDescending(x => x.Id).Take(10).ToListAsync();
+            //return await _context.Messages.Where(x => x.Recipient == null).OrderByDescending(x => x.Id).Take(10).ToListAsync(); 
         }
 
         public async Task<IEnumerable<Message>> GetReceivedMessagesAsync(User user)
