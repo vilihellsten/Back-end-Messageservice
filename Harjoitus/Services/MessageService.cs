@@ -49,7 +49,12 @@ namespace Harjoitus.Services
             Message? updatedMessage = await _repository.GetMessageAsync(message.Id);
             if (updatedMessage != null)
             {
-                return await _repository.UpdateMessageAsync(await DTOToMessage(message));          
+                updatedMessage.Title = message.Title;
+                updatedMessage.Body = message.Body;
+                return await _repository.UpdateMessageAsync(updatedMessage);
+               // Message newMessage = await DTOToMessage(message);
+                //return await _repository.UpdateMessageAsync(await DTOToMessage(message));
+                //return await _repository.UpdateMessageAsync(newMessage);
             }
             return false;
         }
@@ -168,7 +173,7 @@ namespace Harjoitus.Services
                 }
                 newMessage.PrevMessage = prevMessage;
             }
-            return newMessage;
+            return newMessage; //
         }
 
 

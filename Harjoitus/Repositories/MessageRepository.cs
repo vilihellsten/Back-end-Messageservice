@@ -66,7 +66,7 @@ namespace Harjoitus.Repositories
             _context.Entry(message).State = EntityState.Modified;
 
             try
-            {
+            {              
                 await _context.SaveChangesAsync();  // yritetään tallentaa tiedot muuutokset messageen, napataan virhe jos tallennus ei toimi
             }
             catch (Exception)
