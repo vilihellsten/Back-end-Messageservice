@@ -1,2 +1,2 @@
-Simple ASP.NET Core Web API for simple messaging service
+Simple ASP.NET Core Web API for basic messaging service
 # Back-end-Messageservice
