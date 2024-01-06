@@ -40,15 +40,23 @@ namespace Harjoitus.Controllers
             return Ok(await _messageService.GetMessagesAsync());
         }
 
-        //GET : api/search/{searchtext}
+        //GET : api/messages/search/{searchtext}
+        /// <summary>
+        /// Search for a public messages
+        /// </summary>
+        /// <returns>messages</returns>
         [HttpGet("search/{searchtext}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<MessageDTO>>> SearchMessages(string searchtext) // tämä hakee vain public viestit, ei ole vielä yksityisviestien hakua tehty
+        public async Task<ActionResult<IEnumerable<MessageDTO>>> SearchMessages(string searchtext) 
         {
             return Ok(await _messageService.SearchMessagesAsync(searchtext));
         }
 
         // GET: api/Messages/sent/username
+        /// <summary>
+        /// Messages sent by user
+        /// </summary>
+        /// <returns>messages by user</returns>
         [HttpGet("sent/{username}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetMySentMessages(string username)
@@ -67,6 +75,10 @@ namespace Harjoitus.Controllers
         }
 
         // GET: api/Messages/received/username
+        /// <summary>
+        /// User received messages
+        /// </summary>
+        /// <returns>messages to user</returns>
         [HttpGet("received/{username}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetMyReceivedMessages(string username)
@@ -141,7 +153,12 @@ namespace Harjoitus.Controllers
 
         }
 
+
         // POST: api/Messages
+        /// <summary>
+        /// Post a message
+        /// </summary>
+        /// <returns>message created</returns>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
@@ -164,6 +181,9 @@ namespace Harjoitus.Controllers
         }
 
         // DELETE: api/Messages/5 etsitään messagea jolla on tämä id
+        /// <summary>
+        /// Deletes user message
+        /// </summary>
         [HttpDelete("{id}")] 
         [Authorize]
         public async Task<IActionResult> DeleteMessage(long id)

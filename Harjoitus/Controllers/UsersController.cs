@@ -18,21 +18,29 @@ namespace Harjoitus.Controllers
         
         private readonly IUserService _userService;
 
-        //TODO REMOVE _context from controller
+        
         public UsersController(IUserService service)
         {
             _userService = service;
         }
 
         // GET: api/Users
+        /// <summary>
+        /// Search users
+        /// </summary>
+        /// <returns>List of users</returns>
         [HttpGet]
-        // [Authorize]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             return Ok(await _userService.GetUsersAsync());
         }
 
         // GET: api/Users/5
+        /// <summary>
+        /// Search specific user
+        /// </summary>
+        /// <returns>user</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(long id) 
         {
@@ -47,6 +55,9 @@ namespace Harjoitus.Controllers
         }
 
         // PUT: api/Users/5
+        /// <summary>
+        /// Edit a user
+        /// </summary>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
@@ -66,6 +77,10 @@ namespace Harjoitus.Controllers
         }
 
         // POST: api/Users
+        /// <summary>
+        /// Register user
+        /// </summary>
+        /// <returns>User created</returns>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<UserDTO>> PostUser(User user)
@@ -81,7 +96,10 @@ namespace Harjoitus.Controllers
     
         }
 
-        // DELETE: api/Users/5 etsitään messagea jolla on tämä id
+        // DELETE: api/Users/5 
+        /// <summary>
+        /// Delete message
+        /// </summary>
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteUser(long id)
