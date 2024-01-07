@@ -1,6 +1,7 @@
 ﻿using Harjoitus.Models;
 using Harjoitus.Repositories;
 using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Harjoitus.Services
 {
@@ -38,8 +39,18 @@ namespace Harjoitus.Services
 
         public async Task<MessageDTO> NewMessageAsync(MessageDTO message)
         {
-            // TODO: check if receiver is real
-
+            // Tarkistaa onko vastaanottajaa olemassa tietokannassa
+            if(message.Recipient != null)
+            {
+                User? user = await _userRepository.GetUserAsync(message.Recipient);
+                if(user == null)
+                {
+                    return null;
+                }
+                return MessageToDTO(await _repository.NewMessageAsync(await DTOToMessage(message)));
+            }
+            
+           
             return MessageToDTO(await _repository.NewMessageAsync(await DTOToMessage(message)));
             
         }
@@ -170,7 +181,7 @@ namespace Harjoitus.Services
                 }
                 newMessage.PrevMessage = prevMessage;
             }
-            return newMessage; //
+            return newMessage; 
         }
 
 

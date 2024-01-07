@@ -12,7 +12,7 @@ namespace Harjoitus.Middleware
 
         Task<bool> isMyMessage(string username, long messageId);
 
-        Task<bool> isMyAccount(string username, long messageId);
+        Task<bool> isMyAccount(string username, long userId);
     }
     public class UserAuthenticationService : IUserAuthenticationservice
     {

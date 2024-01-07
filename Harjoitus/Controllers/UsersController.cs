@@ -50,7 +50,7 @@ namespace Harjoitus.Controllers
         {
             UserDTO dto = await _userService.GetUserAsync(id);
 
-            if (dto == null)  //1.28.00 4.12
+            if (dto == null)  
             {
                 return NotFound();
             }
@@ -91,7 +91,7 @@ namespace Harjoitus.Controllers
         {
             UserDTO? newUser = await _userService.NewUserAsync(user);
 
-            if (newUser == null)// 1.29.40 4,12
+            if (newUser == null)
             {
                 return Problem("Username not available. Choose different username");
             }

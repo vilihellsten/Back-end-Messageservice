@@ -20,7 +20,7 @@ namespace Harjoitus.Services
 
         public async Task<bool> DeleteUserAsync(long id)
         {
-            User? user = await _repository.GetUserAsync(id); // 109,53
+            User? user = await _repository.GetUserAsync(id); 
             if(user != null)
             {
                 return await _repository.DeleteUserAsync(user);
@@ -31,7 +31,7 @@ namespace Harjoitus.Services
 
         public async Task<UserDTO?> GetUserAsync(long id)
         {
-            User? user = await _repository.GetUserAsync(id); // 1:15:20 KOMMENTTEJA UUDESTA FUNKTIOSTA
+            User? user = await _repository.GetUserAsync(id); 
             if(user == null)
             {
                 return null;

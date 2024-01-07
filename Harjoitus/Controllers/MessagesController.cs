@@ -105,6 +105,7 @@ namespace Harjoitus.Controllers
         /// <response code="200">Returns a message</response>
         /// <response code="404">If message doesn't exist</response>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<MessageDTO>> GetMessage(long id)
         {
 
@@ -174,7 +175,7 @@ namespace Harjoitus.Controllers
 
                 if (newMessage == null)
                 {
-                    return Problem();
+                    return Problem("Recipient not found");
                 }
 
                
