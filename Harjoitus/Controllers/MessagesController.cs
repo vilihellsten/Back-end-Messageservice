@@ -17,7 +17,7 @@ namespace Harjoitus.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        // TODO: Remove context from controller, kontroller tuntee vain servicen functiont
+       
         private readonly IMessageService _messageService;
         private readonly IUserAuthenticationservice _authService;
 
@@ -28,7 +28,7 @@ namespace Harjoitus.Controllers
             _authService = authService;
         }
 
-        // GET: api/Messages, alapuolella XML dokkari kommentteja, tosin en ole varma pitäisikö saada kaikkia viestejä jne, 4.12 vil // <param name="id"></param> jos olisi parametreja käytettäisiin tätä summaryn ja returns välissä
+        // GET: api/Messages
         /// <summary>
         /// Get all Messages database
         /// </summary>

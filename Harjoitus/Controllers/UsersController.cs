@@ -46,6 +46,7 @@ namespace Harjoitus.Controllers
         /// </summary>
         /// <returns>user</returns>
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserDTO>> GetUser(long id) 
         {
             UserDTO dto = await _userService.GetUserAsync(id);
