@@ -4,5 +4,5 @@ Simple ASP.NET Core Web API for basic messaging service
 Harjoitustyöraportti
 [Yksinkertainen backend viestintäsovellukselle.pdf](https://github.com/vilihellsten/Back-end-Messageservice/files/13854648/Yksinkertainen.backend.viestintasovellukselle.pdf)
 
-Swagger dokumentointi (json)
+Swagger dokumentointi
 [swagger.json](https://github.com/vilihellsten/Back-end-Messageservice/files/13854582/swagger.json)
